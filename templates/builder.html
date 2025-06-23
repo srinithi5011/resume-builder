@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build New Resume</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #0f0f0f, #2b2b2b);
+      color: white;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      background: white;
+      color: black;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    input {
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 1rem;
+      font-size: 1rem;
+      background: #0072ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #005be0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🚀 Build Your Smart Resume</h1>
+
+    <form id="builder-form">
+     <input type="url" id="linkedin" placeholder="LinkedIn URL(required)" required />
+     <input type="url" id="github" placeholder="GitHub URL(optional)"  />
+     <button type="submit">Generate</button>
+    </form>
+  </div>
+
+<script>
+  document.getElementById("builder-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const linkedin = document.getElementById("linkedin").value;
+    const github = document.getElementById("github").value;
+
+    if (linkedin) {
+      // Store data
+      localStorage.setItem("linkedin", linkedin);
+      if (github) {
+        localStorage.setItem("github", github);
+      }
+
+      // Redirect to templates with URL params
+      const url = `template.html?linkedin=${encodeURIComponent(linkedin)}&github=${encodeURIComponent(github || "")}`;
+      window.location.href = url;
+    } else {
+      alert("Please enter your LinkedIn URL.");
+    }
+  });
+</script>
+
+  
+
+</body>
+</html>

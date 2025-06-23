@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Edit Info</title></head>
+<body>
+  <h2>Edit / Add Info</h2>
+  <form action="/continue-existing" method="POST">
+    <input type="hidden" name="filename" value="{{ filename }}">
+    Name: <input name="name" value="{{ data.name }}"><br><br>
+    Email: <input name="email" value="{{ data.email }}"><br><br>
+    LinkedIn: <input name="linkedin" value="{{ data.linkedin }}"><br><br>
+    GitHub: <input name="github" value="{{ data.github }}"><br><br>
+    Summary: <textarea name="summary">{{ data.summary }}</textarea><br><br>
+
+    <button type="submit">Continue with Existing Resume</button>
+  </form>
+</body>
+</html>

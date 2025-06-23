@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select Template</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+  <style>
+    body {
+      background: linear-gradient(to right, #1e1e2f, #2c2c54);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 2rem;
+    }
+
+    .template-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .template-card {
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      width: 250px;
+      text-align: center;
+      color: black;
+    }
+
+    .template-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .template-card button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #2d2dff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .template-card button:hover {
+      background-color: #1a1aff;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎨 Choose a Resume Template</h1>
+  <div class="template-gallery">
+    <div class="template-card">
+      <img src="{{ url_for('static', filename='img/template1.png') }}" alt="Template 1" />
+
+      <button onclick="chooseTemplate('template1')">Use Template 1</button>
+    </div>
+    <div class="template-card">
+     <img src="{{ url_for('static', filename='img/template2.png') }}" alt="Template 2" />
+
+
+      <button onclick="chooseTemplate('template2')">Use Template 2</button>
+    </div>
+    <div class="template-card">
+      <img src="{{ url_for('static', filename='img/template3.png') }}" alt="Template 3" />
+      <button onclick="chooseTemplate('template3')">Use Template 3</button>
+    </div>
+  </div>
+
+  <script>
+function chooseTemplate(template) {
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("name");
+  const email = params.get("email");
+  const linkedin = params.get("linkedin");
+  const github = params.get("github");
+  const summary = params.get("summary");
+
+  const url = `/preview?template=${template}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&linkedin=${encodeURIComponent(linkedin)}&github=${encodeURIComponent(github)}&summary=${encodeURIComponent(summary)}`;
+  window.location.href = url;
+}
+
+</script>
+</body>
+
+</html>

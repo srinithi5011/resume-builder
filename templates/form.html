@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Resume Info</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #1e1e2f, #3e3e66);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      background: white;
+      color: black;
+      max-width: 600px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    button {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-old {
+      background-color: #444;
+      color: white;
+    }
+
+    .btn-new {
+      background-color: #0072ff;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📝 Confirm & Update Your Resume Details</h1>
+
+  <form id="resume-form">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="text" id="email" placeholder="Email Address" required />
+    <input type="url" id="linkedin" placeholder="LinkedIn URL" />
+    <input type="url" id="github" placeholder="GitHub URL (optional)" />
+
+    <textarea id="summary" placeholder="Professional Summary"></textarea>
+
+    <div class="btn-group">
+      <button type="button" class="btn-old" onclick="continueWithOld()">Continue with Old Template</button>
+      <button type="button" class="btn-new" onclick="chooseNewTemplate()">Choose New Template</button>
+    </div>
+  </form>
+
+  <script>
+   
+
+    function getFormData() {
+      return {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        linkedin: document.getElementById("linkedin").value,
+        github: document.getElementById("github").value,
+        summary: document.getElementById("summary").value
+      };
+    }
+
+    function continueWithOld() {
+  const data = getFormData();
+  const query = new URLSearchParams(data).toString();
+  window.location.href = `/preview?old=true&${query}`;  // ✅ Flask route, not preview.html
+}
+
+function chooseNewTemplate() {
+  const data = getFormData();
+  const query = new URLSearchParams(data).toString();
+  window.location.href = `/template?${query}`;  // ✅ assuming you create a /template route
+}
+
+  </script>
+
+</body>
+</html>
