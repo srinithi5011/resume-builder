@@ -74,12 +74,11 @@
   <h1>📝 Confirm & Update Your Resume Details</h1>
 
   <form id="resume-form">
-    <input type="text" id="name" placeholder="Full Name" required />
-    <input type="text" id="email" placeholder="Email Address" required />
-    <input type="url" id="linkedin" placeholder="LinkedIn URL" />
-    <input type="url" id="github" placeholder="GitHub URL (optional)" />
-
-    <textarea id="summary" placeholder="Professional Summary"></textarea>
+    <input type="text" id="name" name="name" placeholder="Full Name" value="{{ data.name }}" required />
+    <input type="text" id="email" name="email" placeholder="Email Address" value="{{ data.email }}" required />
+    <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn URL" value="{{ data.linkedin }}" />
+    <input type="url" id="github" name="github" placeholder="GitHub URL (optional)" value="{{ data.github }}" />
+    <textarea id="summary" name="summary" placeholder="Professional Summary">{{ data.summary }}</textarea>
 
     <div class="btn-group">
       <button type="button" class="btn-old" onclick="continueWithOld()">Continue with Old Template</button>
@@ -88,8 +87,6 @@
   </form>
 
   <script>
-   
-
     function getFormData() {
       return {
         name: document.getElementById("name").value,
@@ -101,17 +98,16 @@
     }
 
     function continueWithOld() {
-  const data = getFormData();
-  const query = new URLSearchParams(data).toString();
-  window.location.href = `/preview?old=true&${query}`;  // ✅ Flask route, not preview.html
-}
+      const data = getFormData();
+      const query = new URLSearchParams(data).toString();
+      window.location.href = `/preview?old=true&${query}`;
+    }
 
-function chooseNewTemplate() {
-  const data = getFormData();
-  const query = new URLSearchParams(data).toString();
-  window.location.href = `/template?${query}`;  // ✅ assuming you create a /template route
-}
-
+    function chooseNewTemplate() {
+      const data = getFormData();
+      const query = new URLSearchParams(data).toString();
+      window.location.href = `/template?${query}`;
+    }
   </script>
 
 </body>
