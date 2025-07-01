@@ -53,8 +53,8 @@ def preview():
     summary = request.args.get('summary', '')
     template = request.args.get('template', 'template1')
 
-    return render_template('preview.html', name=name, email=email, linkedin=linkedin,
-                           github=github, summary=summary, template=template)
+    return render_template(f'{template}.html', name=name, email=email, linkedin=linkedin,
+                       github=github, summary=summary)
 
 # Route: Template selection
 @app.route('/template')

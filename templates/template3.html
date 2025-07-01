@@ -1,0 +1,30 @@
+
+<!-- template3.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ name }} - Resume</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-900 p-10">
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <header class="flex justify-between items-center border-b pb-4">
+      <div>
+        <h1 class="text-2xl font-bold">{{ name }}</h1>
+        <p class="text-sm">{{ email }}</p>
+      </div>
+      <div class="text-right text-sm">
+        <p>LinkedIn: {{ linkedin }}</p>
+        <p>GitHub: {{ github }}</p>
+      </div>
+    </header>
+
+    <section class="mt-6">
+      <h2 class="text-lg font-semibold text-blue-600">Professional Summary</h2>
+      <p class="mt-2 leading-relaxed">{{ summary }}</p>
+    </section>
+  </div>
+</body>
+</html>
