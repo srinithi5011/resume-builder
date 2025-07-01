@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ data.name }} - Resume</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+    .section { margin-bottom: 20px; }
+    h1 { color: #2c3e50; }
+    h2 { color: #34495e; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+    ul { list-style: none; padding-left: 0; }
+  </style>
+</head>
+<body>
+
+  <h1>{{ data.name }}</h1>
+  <p>
+    {{ data.email }} |
+    <a href="{{ data.linkedin }}">{{ data.linkedin }}</a> |
+    <a href="{{ data.github }}">{{ data.github }}</a>
+  </p>
+
+  <div class="section">
+    <h2>Professional Summary</h2>
+    <p>{{ data.summary }}</p>
+  </div>
+
+  {% if data.experience %}
+  <div class="section">
+    <h2>Experience</h2>
+    <ul>
+      {% for exp in data.experience %}
+      <li>
+        <strong>{{ exp.title }} - {{ exp.company }}</strong> ({{ exp.years }})<br>
+        {{ exp.description }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if data.education %}
+  <div class="section">
+    <h2>Education</h2>
+    <ul>
+      {% for edu in data.education %}
+      <li>
+        <strong>{{ edu.degree }}</strong>, {{ edu.school }} ({{ edu.year }})
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if data.skills %}
+  <div class="section">
+    <h2>Skills</h2>
+    <p>{{ data.skills | join(', ') }}</p>
+  </div>
+  {% endif %}
+
+</body>
+</html>
