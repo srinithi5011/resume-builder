@@ -67,6 +67,10 @@ def template_selection():
 
     return render_template('template.html', name=name, email=email, linkedin=linkedin,
                            github=github, summary=summary)
+@app.route('/builder')
+def builder():
+    return render_template('builder.html')
+
 
 # Route: Continue editing existing resume
 @app.route('/continue-existing', methods=['POST'])
