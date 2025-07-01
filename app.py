@@ -1,77 +1,80 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
 from werkzeug.utils import secure_filename
 from parsers.extract_data import extract_resume_data
+from docx import Document  # Required for resume continuation
 
 app = Flask(__name__)
 
-# Set upload folder
+# Config upload and output directories
 UPLOAD_FOLDER = 'uploads'
+OUTPUT_FOLDER = 'outputs'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Make sure upload folder exists
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+# Ensure folders exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-# Route: Upload Page (GET)
+# Route: Home page (index.html)
 @app.route('/')
 def index():
-    return render_template('upload.html')
+    return render_template('index.html')  # <- now points to index.html
 
-# Route: Handle Resume Upload (POST)
-@app.route('/upload', methods=['POST'])
+# Route: Upload page (GET and POST)
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    if request.method == 'GET':
+        return render_template('upload.html')
+
+    # Handle POST (file upload)
     if 'resume' not in request.files:
         return "No file part", 400
-    
+
     file = request.files['resume']
     if file.filename == '':
         return "No selected file", 400
 
-    # Save the file
     filename = secure_filename(file.filename)
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(filepath)
 
-    # Extract data using AI parser
+    # Extract data from resume
     extracted_data = extract_resume_data(filepath)
 
-    # Pass extracted data to form.html
     return render_template('form.html', data=extracted_data)
 
+# Route: Resume template preview
 @app.route('/preview')
 def preview():
-    # Get the data from URL query parameters
     name = request.args.get('name', '')
     email = request.args.get('email', '')
     linkedin = request.args.get('linkedin', '')
     github = request.args.get('github', '')
     summary = request.args.get('summary', '')
-    template = request.args.get('template', 'template1')  # default
+    template = request.args.get('template', 'template1')
 
-    return render_template('preview.html', name=name, email=email, linkedin=linkedin, github=github, summary=summary, template=template)
+    return render_template('preview.html', name=name, email=email, linkedin=linkedin,
+                           github=github, summary=summary, template=template)
 
-
-
+# Route: Template selection
 @app.route('/template')
 def template_selection():
-    # Get data from query params (if passed)
     name = request.args.get('name', '')
     email = request.args.get('email', '')
     linkedin = request.args.get('linkedin', '')
     github = request.args.get('github', '')
     summary = request.args.get('summary', '')
 
-    return render_template('template.html', name=name, email=email, linkedin=linkedin, github=github, summary=summary)
+    return render_template('template.html', name=name, email=email, linkedin=linkedin,
+                           github=github, summary=summary)
 
+# Route: Continue editing existing resume
 @app.route('/continue-existing', methods=['POST'])
 def continue_existing():
     filename = request.form['filename']
     filepath = os.path.join(UPLOAD_FOLDER, filename)
 
     doc = Document(filepath)
-
-    # Prevent adding duplicate data
     existing_text = "\n".join(p.text.lower() for p in doc.paragraphs)
 
     def add_if_not_present(label, value):
@@ -89,7 +92,6 @@ def continue_existing():
 
     return send_file(output_path, as_attachment=True)
 
-
-# Run the app
+# Start the app
 if __name__ == '__main__':
     app.run(debug=True)
